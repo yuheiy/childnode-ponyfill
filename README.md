@@ -12,7 +12,7 @@ npm i @yuheiy/childnode-ponyfill
 
 ```javascript
 import {replaceWith} from '@yuheiy/childnode-ponyfill'
-const oldElement = document.getElementById('#old')
+const oldElement = document.querySelector('#old')
 const newElement = document.createElement('div')
 replaceWith(oldElement, newElement)
 ```
@@ -21,19 +21,35 @@ replaceWith(oldElement, newElement)
 
 ### before(childNode, ...nodes)
 
-Same API with [`ChildNode.before()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/before)
+```typescript
+export declare const before: (childNode: Element | CharacterData | DocumentType, ...nodes: (string | Node)[]) => void;
+```
+
+Same API with [`ChildNode.before()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/before).
 
 ### after(childNode, ...nodes)
 
-Same API with [`ChildNode.after()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/after)
+```typescript
+export declare const after: (childNode: Element | CharacterData | DocumentType, ...nodes: (string | Node)[]) => void;
+```
+
+Same API with [`ChildNode.after()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/after).
 
 ### replaceWith(childNode, ...nodes)
 
-Same API with [`ChildNode.replaceWith()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/replaceWith)
+```typescript
+export declare const replaceWith: (childNode: Element | CharacterData | DocumentType, ...nodes: (string | Node)[]) => void;
+```
+
+Same API with [`ChildNode.replaceWith()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/replaceWith).
 
 ### remove(childNode)
 
-Same API with [`ChildNode.remove()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove)
+```typescript
+export declare const remove: (childNode: Element | CharacterData | DocumentType, ...nodes: (string | Node)[]) => void;
+```
+
+Same API with [`ChildNode.remove()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove).
 
 ## License
 

@@ -34,10 +34,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "ava": {
-    "require": [
-      "./test/helpers/setup-browser-env.js"
-    ]
   }
 }
