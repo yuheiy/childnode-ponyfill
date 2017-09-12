@@ -1,5 +1,5 @@
 type ImplementsOfChildNode = Element | DocumentType | CharacterData
-type nodes = Array<string | Node>
+type Nodes = Array<string | Node>
 
 const find = <T>(arr: Array<T>, predicate: (item: T, idx: number, arr: Array<T>) => boolean): T | void => {
   for (let i = 0; i < arr.length; i++) {
@@ -9,8 +9,8 @@ const find = <T>(arr: Array<T>, predicate: (item: T, idx: number, arr: Array<T>)
   }
 }
 
-const makePonyfill = (methodName: string, method: (childNode: ImplementsOfChildNode, ...nodes: nodes) => void) => {
-  return (childNode: ImplementsOfChildNode, ...nodes: nodes): void => {
+const makePonyfill = (methodName: string, method: (childNode: ImplementsOfChildNode, ...nodes: Nodes) => void) => {
+  return (childNode: ImplementsOfChildNode, ...nodes: Nodes): void => {
     const Implement = find([Element, DocumentType, CharacterData], (Impl) => childNode instanceof Impl)
     if (!Implement) {
       throw new TypeError('childNode must be Element, DocumentType or CharacterData')
@@ -22,7 +22,7 @@ const makePonyfill = (methodName: string, method: (childNode: ImplementsOfChildN
   }
 }
 
-const createDocumentFragmentFromNodes = (...nodes: /*nodes*/Array<any>): DocumentFragment => {
+const createDocumentFragmentFromNodes = (...nodes: /*Nodes*/Array<any>): DocumentFragment => {
   return nodes.reduce((frag, node) => {
     if (typeof node === 'string') {
       const parser = document.createElement('div')
@@ -37,17 +37,17 @@ const createDocumentFragmentFromNodes = (...nodes: /*nodes*/Array<any>): Documen
   }, document.createDocumentFragment())
 }
 
-export const before = makePonyfill('before', (childNode: ImplementsOfChildNode, ...nodes: nodes) => {
+export const before = makePonyfill('before', (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {
   const frag = createDocumentFragmentFromNodes(...nodes)
   ;(childNode as any).parentNode.insertBefore(frag, childNode)
 })
 
-export const after = makePonyfill('after', (childNode: ImplementsOfChildNode, ...nodes: nodes) => {
+export const after = makePonyfill('after', (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {
   const frag = createDocumentFragmentFromNodes(...nodes)
   ;(childNode as any).parentNode.insertBefore(frag, childNode.nextSibling)
 })
 
-export const replaceWith = makePonyfill('replaceWith', (childNode: ImplementsOfChildNode, ...nodes: nodes) => {
+export const replaceWith = makePonyfill('replaceWith', (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {
   if (childNode.parentNode) {
     const frag = createDocumentFragmentFromNodes(...nodes)
     childNode.parentNode.replaceChild(frag, childNode)
