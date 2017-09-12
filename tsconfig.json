@@ -3,17 +3,10 @@
     /* Basic Options */
     "target": "es5",
     "module": "commonjs",
-    "lib": [
-      "dom",
-      "es2015",
-      "es2016",
-      "es2017"
-    ],
     "jsx": "preserve",
     "declaration": true,
     "sourceMap": true,
     "outDir": "./lib/",
-    "rootDir": "./src/",
     /* Strict Type-Checking Options */
     "strict": true,
     /* Additional Checks */
