@@ -46,7 +46,7 @@ Same API with [`ChildNode.replaceWith()`](https://developer.mozilla.org/en-US/do
 ### remove(childNode)
 
 ```typescript
-export declare const remove: (childNode: Element | CharacterData | DocumentType, ...nodes: (string | Node)[]) => void;
+export declare const remove: (childNode: Element | CharacterData | DocumentType) => void;
 ```
 
 Same API with [`ChildNode.remove()`](https://developer.mozilla.org/en-US/docs/Web/API/ChildNode/remove).
