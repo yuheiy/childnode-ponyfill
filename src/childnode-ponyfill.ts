@@ -21,16 +21,10 @@ const getNativeMethod = (childNode: ImplementsOfChildNode, methodName: ChildNode
 }
 
 const createDocumentFragmentFromNodes = (...nodes: /*Nodes*/Array<any>): DocumentFragment => {
-  return nodes.reduce((frag, node) => {
-    if (typeof node === 'string') {
-      const parser = document.createElement('div')
-      parser.innerHTML = node
-      while (parser.firstChild) {
-        frag.appendChild(parser.firstChild)
-      }
-    } else {
-      frag.appendChild(node)
-    }
+  return nodes.reduce((frag, nodeOrDomString) => {
+    const isNode = nodeOrDomString instanceof Node
+    const node = isNode ? nodeOrDomString : document.createTextNode(String(nodeOrDomString))
+    frag.appendChild(node)
     return frag
   }, document.createDocumentFragment())
 }

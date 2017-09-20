@@ -7,6 +7,7 @@ declare global {
     interface Global {
       window: any
       document: any
+      Node: any
       Element: any
       DocumentType: any
       CharacterData: any
@@ -15,9 +16,10 @@ declare global {
 }
 
 const window: any = new Window()
-const {document, Element, DocumentType, CharacterData} = window
+const {document, Node, Element, DocumentType, CharacterData} = window
 global.window = window
 global.document = document
+global.Node = Node
 global.Element = Element
 global.DocumentType = DocumentType
 global.CharacterData = CharacterData
@@ -32,21 +34,21 @@ beforeEach(() => {
 
 describe('before', () => {
   it('should insert nodes before childNode', () => {
-    document.body.innerHTML += 'text'
+    document.body.innerHTML = 'text'
     const div = document.createElement('div')
     document.body.appendChild(div)
     childNodeBefore(div, '<span></span>', 'before')
-    assert.strictEqual(document.body.innerHTML, 'text<span></span>before<div></div>')
+    assert.strictEqual(document.body.innerHTML, 'text&lt;span&gt;&lt;/span&gt;before<div></div>')
   })
 })
 
 describe('after', () => {
   it('should insert nodes after childNode', () => {
-    document.body.innerHTML += 'text'
+    document.body.innerHTML = 'text'
     const div = document.createElement('div')
     document.body.insertBefore(div, document.body.firstChild)
     childNodeAfter(div, '<span></span>', 'after')
-    assert.strictEqual(document.body.innerHTML, '<div></div><span></span>aftertext')
+    assert.strictEqual(document.body.innerHTML, '<div></div>&lt;span&gt;&lt;/span&gt;aftertext')
   })
 })
 
