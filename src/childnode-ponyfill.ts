@@ -1,5 +1,5 @@
 type ImplementsOfChildNode = Element | DocumentType | CharacterData
-type ChildNodeMethodNames = 'before' | 'after' | 'replaceWith' | 'remove'
+type ChildNodeMethodName = 'before' | 'after' | 'replaceWith' | 'remove'
 type Nodes = Array<string | Node>
 
 const find = <T>(arr: Array<T>, predicate: (item: T, idx: number, arr: Array<T>) => boolean): T | void => {
@@ -10,10 +10,13 @@ const find = <T>(arr: Array<T>, predicate: (item: T, idx: number, arr: Array<T>)
   }
 }
 
-const getNativeMethod = (childNode: ImplementsOfChildNode, methodName: ChildNodeMethodNames): (() => void) | void => {
-  const Implement = find([Element, DocumentType, CharacterData], (Impl) => childNode instanceof Impl)
+const getNativeMethod = (childNode: ImplementsOfChildNode, methodName: ChildNodeMethodName): (() => void) | void => {
+  const Implement = find<typeof Element | typeof DocumentType | typeof CharacterData>(
+    [Element, DocumentType, CharacterData],
+    (Impl) => childNode instanceof Impl,
+  )
   if (!Implement) {
-    throw new TypeError('childNode must be Element, DocumentType or CharacterData')
+    throw new TypeError('childNode must be an instance of Element, DocumentType or CharacterData')
   }
   if (typeof (Implement as any).prototype[methodName] === 'function') {
     return (childNode as any)[methodName]
@@ -35,8 +38,10 @@ export const before = (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {
     return nativeBefore(...nodes)
   }
 
-  const frag = createDocumentFragmentFromNodes(...nodes)
-  ;(childNode as any).parentNode.insertBefore(frag, childNode)
+  if (childNode.parentNode) {
+    const frag = createDocumentFragmentFromNodes(...nodes)
+    ;(childNode as any).parentNode.insertBefore(frag, childNode)  
+  }
 }
 
 export const after = (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {
@@ -45,8 +50,10 @@ export const after = (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {
     return nativeAfter(...nodes)
   }
 
-  const frag = createDocumentFragmentFromNodes(...nodes)
-  ;(childNode as any).parentNode.insertBefore(frag, childNode.nextSibling)
+  if (childNode.parentNode) {
+    const frag = createDocumentFragmentFromNodes(...nodes)
+    ;(childNode as any).parentNode.insertBefore(frag, childNode.nextSibling)  
+  }
 }
 
 export const replaceWith = (childNode: ImplementsOfChildNode, ...nodes: Nodes) => {

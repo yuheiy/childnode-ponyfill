@@ -1,6 +1,1 @@
-declare module 'window' {
-  export = WindowKlass
-}
-
-declare class WindowKlass {
-}
+declare module 'window'
